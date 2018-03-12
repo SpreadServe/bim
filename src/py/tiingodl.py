@@ -93,7 +93,7 @@ def write_csvs( results, keys, dates, start_date, end_date):
             # Write out column headers: the dates
             w = csv.DictWriter( ofile, fieldnames=['ticker'] + list( dates))
             w.writeheader( )
-            for tickr in results.iterkeys( ):
+            for tickr in sorted( results.iterkeys( )):
                 row = dict( ticker=tickr)
                 ticks = results.get( tickr)
                 for sdt in dates:
