@@ -22,8 +22,12 @@ TIINGO_URL = 'https://api.tiingo.com/tiingo/daily/%s/prices?startDate=%s&endDate
 
 AUTH_KEY = '48777192920ae042c07a1ba8cbf5b8bfd0c17c64'
 
-START_DATE = '2018-02-01'
-END_DATE = '2018-03-01'
+START_DATE = '2018-01-31'
+END_DATE = '2018-02-28'
+
+# START_DATE = '2018-02-01'
+# END_DATE = '2018-03-01'
+
 HTTP_HEADERS = {
     'Content-Type': 'application/json',
     'Authorization' : 'Token %s' % AUTH_KEY
@@ -103,6 +107,6 @@ def write_csvs( results, keys, dates, start_date, end_date):
 
 
 if __name__ == '__main__':
-    # result = dict( )
+    download( )
     tup = normalize( )
     write_csvs( *tup)
