@@ -10,6 +10,7 @@ import types
 import logging
 # 3rd pty mods
 import requests
+import requests.exceptions
 
 # Global logging setup
 logging.basicConfig( stream=sys.stdout, level=logging.DEBUG, format='%(asctime)s %(message)s')
@@ -40,13 +41,16 @@ def download( ):
         while ln:
             ticker = ln.strip( )
             url = TIINGO_URL % ( ticker, START_DATE, END_DATE)
-            resp = requests.get( url, headers=HTTP_HEADERS)
-            rfname = '%s_%s_%s.json' % ( ticker, START_DATE, END_DATE)
-            rfpath = os.path.join( ROOT_DIR, 'dat', rfname)
-            logr.info( rfpath)
-            with open( rfpath, 'wt') as rf:
-                rf.write( resp.text)
-            ln = tickf.readline( )
+            try:
+                resp = requests.get( url, headers=HTTP_HEADERS)
+                rfname = '%s_%s_%s.json' % ( ticker, START_DATE, END_DATE)
+                rfpath = os.path.join( ROOT_DIR, 'dat', rfname)
+                logr.info( rfpath)
+                with open( rfpath, 'wt') as rf:
+                    rf.write( resp.text)
+                ln = tickf.readline( )
+            except requests.exceptions.ConnectionError, ex:
+                logr.error( 'download: %s' % str( ex))
 
 
 def normalize( ):
